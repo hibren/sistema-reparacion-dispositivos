@@ -1,0 +1,123 @@
+"use client"
+
+import { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { LogOut, Settings } from "lucide-react"
+import { LayoutGrid, Stethoscope, Users, UserCircle, Wrench, UserRound, Package, BarChart3 } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useAppContext } from "../../hooks/useAppContext"
+
+export function Sidebar() {
+  const location = useLocation()
+  const { setIsAuthenticated, sidebarExpanded, darkMode } = useAppContext()
+  const [role, setRole] = useState("Administrador")
+
+  const handleLogout = () => {
+    // Limpiar localStorage
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+
+    // Actualizar estado de autenticación
+    setIsAuthenticated(false)
+  }
+
+  const menuItems = [
+    { path: "/dashboard", label: "Inicio", icon: <LayoutGrid className="h-5 w-5" /> },
+    { path: "/diagnostico", label: "Diagnóstico", icon: <Stethoscope className="h-5 w-5" /> },
+    { path: "/roles", label: "Roles", icon: <Users className="h-5 w-5" /> },
+    { path: "/empleados", label: "Empleados", icon: <UserCircle className="h-5 w-5" /> },
+    { path: "/reparaciones", label: "Reparaciones", icon: <Wrench className="h-5 w-5" /> },
+    { path: "/clientes", label: "Clientes", icon: <UserRound className="h-5 w-5" /> },
+    { path: "/repuestos", label: "Repuestos", icon: <Package className="h-5 w-5" /> },
+    { path: "/gastos", label: "Gastos Operativos", icon: <BarChart3 className="h-5 w-5" /> },
+  ]
+
+  return (
+    <div
+      className={`h-screen flex flex-col transition-all duration-300 ${sidebarExpanded ? "w-60" : "w-16"} ${
+        darkMode
+          ? "bg-sidebar border-r border-sidebar-border text-sidebar-foreground"
+          : "bg-sidebar border-r border-sidebar-border text-sidebar-foreground"
+      }`}
+    >
+      {/* Logo */}
+      <div className={`p-4 flex ${sidebarExpanded ? "justify-center" : "justify-center"}`}>
+        <div className="relative h-10 w-10">
+          <div className="absolute inset-0 bg-sidebar-primary rounded-md transform rotate-6"></div>
+          <div className="absolute inset-0 bg-sidebar-primary rounded-md transform -rotate-3 flex items-center justify-center">
+            <span className="text-sidebar-primary-foreground font-bold text-sm">T</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Selector de rol - solo visible cuando está expandido */}
+      {sidebarExpanded && (
+        <div className="px-4 py-2">
+          <p className={`text-sm mb-1 text-sidebar-foreground/70`}>Cambiar de rol</p>
+          <Select value={role} onValueChange={setRole}>
+            <SelectTrigger className={`w-full bg-sidebar border-sidebar-border text-sidebar-foreground`}>
+              <SelectValue placeholder="Seleccionar rol" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Administrador">Administrador</SelectItem>
+              <SelectItem value="Técnico">Técnico</SelectItem>
+              <SelectItem value="Recepcionista">Recepcionista</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* Menú de navegación */}
+      <nav className="flex-1 overflow-y-auto py-4">
+        <ul className="space-y-1 px-2">
+          {menuItems.map((item) => (
+            <li key={item.path}>
+              <Link
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                  location.pathname === item.path
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                } ${!sidebarExpanded && "justify-center"}`}
+                title={!sidebarExpanded ? item.label : ""}
+              >
+                {item.icon}
+                {sidebarExpanded && <span>{item.label}</span>}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Pie del sidebar */}
+      <div className={`p-4 border-t border-sidebar-border`}>
+        <ul className="space-y-1">
+          <li>
+            <Link
+              to="/configuracion"
+              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors 
+              text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+              ${!sidebarExpanded && "justify-center"}`}
+              title={!sidebarExpanded ? "Configuración" : ""}
+            >
+              <Settings className="h-5 w-5" />
+              {sidebarExpanded && <span>Configuración</span>}
+            </Link>
+          </li>
+          <li>
+            <button
+              onClick={handleLogout}
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors 
+              text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+              ${!sidebarExpanded && "justify-center"}`}
+              title={!sidebarExpanded ? "Cerrar sesión" : ""}
+            >
+              <LogOut className="h-5 w-5" />
+              {sidebarExpanded && <span>Cerrar sesión</span>}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  )
+}

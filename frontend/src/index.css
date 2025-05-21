@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --background: 250 250 250; /* RGB sin rgb() */
+    --foreground: 3 35 76;
+    --card: 255 255 255;
+    --card-foreground: 3 35 76;
+    --popover: 255 255 255;
+    --popover-foreground: 3 35 76;
+    --primary: 3 35 76;
+    --primary-foreground: 255 255 255;
+    --secondary: 240 249 255;
+    --secondary-foreground: 3 35 76;
+    --muted: 240 249 255;
+    --muted-foreground: 107 114 128;
+    --accent: 240 249 255;
+    --accent-foreground: 3 35 76;
+
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --warning: 245 158 11;
+    --warning-foreground: 255 255 255;
+    --success: 16 185 129;
+    --success-foreground: 255 255 255;
+    --info: 59 130 246;
+    --info-foreground: 255 255 255;
+
+    --chart-1: 59 130 246;
+    --chart-2: 16 185 129;
+    --chart-3: 99 102 241;
+    --chart-4: 245 158 11;
+    --chart-5: 239 68 68;
+
+    --sidebar: 255 255 255;
+    --sidebar-foreground: 3 35 76;
+    --sidebar-primary: 3 35 76;
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 240 249 255;
+    --sidebar-accent-foreground: 3 35 76;
+    --sidebar-border: 229 231 235;
+    --sidebar-ring: 147 197 253;
+
+    --border: 229 231 235;
+    --input: 229 231 235;
+    --ring: 59 130 246;
+  }
+}
+
+.dark {
+  --background: 1 14 29; 
+  --foreground: 255 255 255;
+  --card: 15 28 42;
+  --card-foreground: 255 255 255;
+  --popover: 15 28 42;
+  --popover-foreground: 255 255 255;
+  --primary: 2 34 76;
+  --primary-foreground: 255 255 255;
+  --secondary: 15 28 42; 
+  --secondary-foreground: 255 255 255;
+  --muted: 15 28 42;
+  --muted-foreground: 156 163 175;
+  --accent: 15 28 42;
+  --accent-foreground: 255 255 255;
+
+  --destructive: 248 113 113;
+  --destructive-foreground: 255 255 255;
+  --warning: 251 191 36;
+  --warning-foreground: 0 0 0;
+  --success: 52 211 153;
+  --success-foreground: 0 0 0;
+  --info: 96 165 250;
+  --info-foreground: 0 0 0;
+
+  --border: 255 255 255;
+  --input: 255 255 255;
+  --ring: 59 130 246;
+
+  --chart-1: 59 130 246;
+  --chart-2: 16 185 129;
+  --chart-3: 99 102 241;
+  --chart-4: 245 158 11;
+  --chart-5: 239 68 68;
+
+  --sidebar: 1 14 29;
+  --sidebar-foreground: 255 255 255;
+  --sidebar-primary: 2 34 76;
+  --sidebar-primary-foreground: 255 255 255;
+  --sidebar-accent: 15 28 42;
+  --sidebar-accent-foreground: 255 255 255;
+  --sidebar-border: 255 255 255;
+  --sidebar-ring: 59 130 246;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

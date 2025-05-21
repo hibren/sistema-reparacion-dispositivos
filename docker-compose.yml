@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8
+    container_name: gestionreparaciones
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gestionreparaciones
+      MYSQL_USER: fastapi_user
+      MYSQL_PASSWORD: fastapi_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/gestionreparaciones.sql:/docker-entrypoint-initdb.d/gestionreparaciones.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fastapi:
+    build: ./backend
+    container_name: fastapi
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+volumes:
+  db_data:
